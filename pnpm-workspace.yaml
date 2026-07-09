@@ -1,0 +1,12 @@
+allowBuilds:
+  '@firebase/util': true
+  '@tailwindcss/oxide': set this to true or false
+  esbuild: set this to true or false
+  protobufjs: true
+supportedArchitectures:
+  os:
+    - win32
+  cpu:
+    - x64
+  libc:
+    - glibc
