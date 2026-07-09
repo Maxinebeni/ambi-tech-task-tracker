@@ -1,8 +1,7 @@
 
   # Ambi-Tech Web App UI
-
-  This is a code bundle for Ambi-Tech Web App UI. The original project is available at https://www.figma.com/design/aFkTJYbTiVbOhLlHM9ORuM/Ambi-Tech-Web-App-UI.
-
+  A task tracking tool for Ambi-Tech that is used by managers and departments to track and assign work to the managers.
+  
   ## Running the code
 
   Run `npm i` to install the dependencies.
