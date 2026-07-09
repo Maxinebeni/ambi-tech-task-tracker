@@ -4,16 +4,17 @@ import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
 // Firebase project config for Ambi-Tech
-// Note: this API key is safe to expose in client code — Firebase apps are
-// secured via Firestore/Auth security rules, not by hiding this key.
+// Values are read from environment variables. Note: the API key is safe to
+// expose in client code — Firebase apps are secured via Firestore/Auth
+// security rules, not by hiding this key.
 const firebaseConfig = {
-  apiKey: "AIzaSyAhLRfftP2XdhnVT1EB2CIRwCAHQtQ3BSg",
-  authDomain: "ambi-c8ba3.firebaseapp.com",
-  projectId: "ambi-c8ba3",
-  storageBucket: "ambi-c8ba3.firebasestorage.app",
-  messagingSenderId: "609564954184",
-  appId: "1:609564954184:web:d19e28b3a2785d30b2d27d",
-  measurementId: "G-DP5GLQJ98K",
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
 };
 
 export const app = initializeApp(firebaseConfig);
