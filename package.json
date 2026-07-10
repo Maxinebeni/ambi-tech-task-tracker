@@ -94,7 +94,9 @@
   },
   "pnpm": {
     "overrides": {
-      "vite": "6.3.5"
+      "vite": "6.3.5",
+    "rollup": "npm:@rollup/wasm-node@4.62.2"
+
     }
   }
 }
