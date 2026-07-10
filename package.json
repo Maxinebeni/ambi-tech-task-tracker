@@ -2,13 +2,13 @@
   "name": "ambi-tech-task-tracker",
   "private": true,
   "version": "0.0.1",
-  "packageManager": "pnpm@10.15.0",
+  "packageManager": "npm@10",
   "type": "module",
   "scripts": {
     "build": "vite build",
     "dev": "vite"
   },
-  
+
   "engines": {
   "node": "22.x"
 },
