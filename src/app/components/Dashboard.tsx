@@ -8,6 +8,7 @@ import { useApprovals } from "../../lib/approvals";
 import { useAuth } from "../../lib/AuthContext";
 import { useMyAppUser } from "../../lib/users";
 import { useDepartments } from "../../lib/departments";
+import { getTimeOfDayGreeting, getFirstName } from "../../lib/greeting";
 import type { QuarterlyMilestone, Quarter } from "../../lib/types";
 
 const MILESTONE_PREVIEW_COUNT = 3;
@@ -178,7 +179,9 @@ export function Dashboard() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8">
-          <h1 className="text-3xl text-[#0D1B3E] mb-2">Dashboard</h1>
+          <h1 className="text-3xl text-[#0D1B3E] mb-2">
+            {getTimeOfDayGreeting()}, {getFirstName(user?.displayName, user?.email)}
+          </h1>
           <p className="text-gray-500 text-sm">Overview of all company projects and progress</p>
         </div>
 

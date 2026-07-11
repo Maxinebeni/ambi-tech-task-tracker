@@ -43,12 +43,15 @@ export function Navigation() {
             <Link
               key={item.path}
               to={item.path}
-              className={`flex items-center gap-3 px-4 py-2.5 rounded-lg transition-colors text-sm ${
+              className={`relative flex items-center gap-3 px-4 py-2.5 rounded-lg transition-colors text-sm ${
                 isActive
                   ? "bg-[#0D1B3E] text-white"
-                  : "text-gray-600 hover:bg-gray-100"
+                  : "text-gray-600 hover:bg-[#1D6B78]/[0.06] hover:text-[#1D6B78]"
               }`}
             >
+              {isActive && (
+                <span className="absolute left-0 top-1/2 -translate-y-1/2 h-5 w-1 rounded-r-full bg-[#8ED3DB]" />
+              )}
               <Icon className="w-4 h-4 flex-shrink-0" />
               {item.label}
             </Link>

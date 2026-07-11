@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
-import { Logo } from "./Logo";
+import { LogoFull } from "./Logo";
 import { useAuth } from "../../lib/AuthContext";
 
 export function Login() {
@@ -45,13 +45,12 @@ export function Login() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-white px-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-white via-white to-[#8ED3DB]/[0.08] px-4">
       <div className="w-full max-w-md">
         <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-8 md:p-12">
           <div className="flex flex-col items-center mb-8">
-            <Logo size={64} />
-            <h1 className="mt-4 text-3xl text-[#0D1B3E]">Ambi-Tech</h1>
-            <p className="mt-2 text-gray-600">Project & Task Management</p>
+            <LogoFull height={76} />
+            <p className="mt-3 text-gray-600">Project & Task Management</p>
           </div>
 
           {error && (
