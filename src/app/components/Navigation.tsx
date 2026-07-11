@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate } from "react-router";
-import { Logo } from "./Logo";
+import { LogoFull } from "./Logo";
 import { LayoutDashboard, FolderKanban, Calendar, CheckSquare, Bell, Compass, LogOut, Users } from "lucide-react";
 import { useAuth } from "../../lib/AuthContext";
 
@@ -29,9 +29,8 @@ export function Navigation() {
   return (
     <aside className="fixed inset-y-0 left-0 w-56 bg-white border-r border-gray-200 flex flex-col z-30">
       {/* Brand */}
-      <Link to="/dashboard" className="flex items-center gap-3 px-5 py-5 border-b border-gray-100">
-        <Logo size={36} />
-        <span className="text-lg text-[#0D1B3E]">Ambi-Tech</span>
+      <Link to="/dashboard" className="flex items-center px-5 py-5 border-b border-gray-100">
+        <LogoFull height={32} />
       </Link>
 
       {/* Nav links */}

@@ -12,8 +12,12 @@ export function getTimeOfDayGreeting(date: Date = new Date()): string {
  * "dora.uwase@ambi-tech.rw" -> "Dora").
  */
 export function getFirstName(displayName?: string | null, email?: string | null): string {
-  if (displayName && displayName.trim()) {
-    return displayName.trim().split(/\s+/)[0];
+  const trimmed = displayName?.trim();
+  // A real first name is normally at least 2 characters — a single-letter display
+  // name (e.g. some Google accounts just have "M" set) isn't useful for a greeting,
+  // so fall back to deriving one from the email instead.
+  if (trimmed && trimmed.length > 1) {
+    return trimmed.split(/\s+/)[0];
   }
   if (email) {
     const local = email.split("@")[0];
