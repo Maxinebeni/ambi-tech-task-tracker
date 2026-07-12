@@ -137,18 +137,23 @@ export function Dashboard() {
     appliedDefaultTab.current = true;
   }, [me, realDepartments]);
 
-  // Real numbers computed from Firestore data instead of hardcoded placeholders
+  // Real numbers computed from Firestore data, scoped to the active department tab
   const todayStr = new Date().toISOString().slice(0, 10);
-  const activeProjectsCount = projects.filter((p) => p.status !== "Complete").length;
-  const overdueTasksCount = tasks.filter((t) => !t.archived && t.status !== "Complete" && t.dueDate < todayStr).length;
+
+  const deptProjects = activeTab === "All" ? projects : projects.filter((p) => p.department === activeTab);
+  const deptTasks = activeTab === "All" ? tasks : tasks.filter((t) => t.department === activeTab);
+  const deptApprovals = activeTab === "All" ? approvals : approvals.filter((a) => a.department === activeTab);
+
+  const activeProjectsCount = deptProjects.filter((p) => p.status !== "Complete").length;
+  const overdueTasksCount = deptTasks.filter((t) => !t.archived && t.status !== "Complete" && t.dueDate < todayStr).length;
   const weeklyCompletionPct = (() => {
-    const boardTasks = tasks.filter((t) => !t.archived);
+    const boardTasks = deptTasks.filter((t) => !t.archived);
     if (boardTasks.length === 0) return 0;
     const done = boardTasks.filter((t) => t.status === "Complete").length;
     return Math.round((done / boardTasks.length) * 100);
   })();
 
-  const pendingApprovalsCount = approvals.filter((a) => a.status === "Pending").length;
+  const pendingApprovalsCount = deptApprovals.filter((a) => a.status === "Pending").length;
 
   const summaryCards = [
     { label: "Active Projects", value: String(activeProjectsCount), icon: TrendingUp, color: "bg-blue-50 text-blue-600" },
@@ -168,6 +173,10 @@ export function Dashboard() {
     : visibleMilestones.slice(0, MILESTONE_PREVIEW_COUNT);
 
   const selectedGoal = selectedMilestone ? findGoalById(annualGoals, selectedMilestone.annualGoalId) : undefined;
+
+  const visibleGoals = activeTab === "All"
+    ? annualGoals
+    : annualGoals.filter((g) => (g.department ?? "General") === activeTab);
 
   function goToMilestoneInStrategy(m: QuarterlyMilestone) {
     navigate(`/strategy?quarter=${m.quarter}&milestoneId=${m.id}`);
@@ -320,13 +329,15 @@ export function Dashboard() {
             <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-xl text-[#0D1B3E]">2026 Annual Goals</h2>
-                <span className="text-xs text-gray-400">{annualGoals.length} goals</span>
+                <span className="text-xs text-gray-400">{visibleGoals.length} goal{visibleGoals.length === 1 ? "" : "s"}</span>
               </div>
-              {annualGoals.length === 0 ? (
-                <p className="text-center text-gray-400 py-8 text-sm">No annual goals yet.</p>
+              {visibleGoals.length === 0 ? (
+                <p className="text-center text-gray-400 py-8 text-sm">
+                  {activeTab === "All" ? "No annual goals yet." : `No annual goals for ${activeTab} yet.`}
+                </p>
               ) : (
                 <div className="space-y-6">
-                  {annualGoals.map((goal) => {
+                  {visibleGoals.map((goal) => {
                     const pct = computeGoalProgress(goal.id, milestones, tasks, projects);
                     return (
                     <div key={goal.id}>
