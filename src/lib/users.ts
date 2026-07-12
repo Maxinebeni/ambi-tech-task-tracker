@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { collection, doc, getDoc, setDoc, deleteDoc, onSnapshot, query, orderBy } from "firebase/firestore";
+import { collection, doc, getDoc, setDoc, deleteDoc, deleteField, onSnapshot, query, orderBy } from "firebase/firestore";
 import { db } from "./firebase";
 import type { AppUser } from "./types";
 import type { User as FirebaseUser } from "firebase/auth";
@@ -70,7 +70,10 @@ export function useMyAppUser(userId: string | undefined) {
 }
 
 export async function updateUserRoleDoc(uid: string, patch: { role?: AppUser["role"]; department?: string }) {
-  await setDoc(doc(db, "users", uid), patch, { merge: true });
+  const data: Record<string, unknown> = {};
+  if ("role" in patch) data.role = patch.role === undefined ? deleteField() : patch.role;
+  if ("department" in patch) data.department = patch.department === undefined ? deleteField() : patch.department;
+  await setDoc(doc(db, "users", uid), data, { merge: true });
 }
 
 /**

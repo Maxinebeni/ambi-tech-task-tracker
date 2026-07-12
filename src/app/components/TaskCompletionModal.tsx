@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { X, Link as LinkIcon, CheckCircle, CheckCheck } from "lucide-react";
 import { addApprovalDoc } from "../../lib/approvals";
-import { sendSlackNotification } from "../../lib/slack";
 import { useUsers } from "../../lib/users";
 import { useAuth } from "../../lib/AuthContext";
 
@@ -66,10 +65,6 @@ export function TaskCompletionModal({ taskId: _taskId, taskName, department, onC
         approverId,
         approverName: approver?.name || "Unknown",
       });
-
-      sendSlackNotification(
-        `:white_check_mark: *${submitterName}* submitted *"${taskName}"* for review by *${approver?.name || "someone"}*.`
-      );
 
       setMode("done");
       setTimeout(onClose, 2000);

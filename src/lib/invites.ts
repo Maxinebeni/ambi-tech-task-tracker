@@ -31,7 +31,10 @@ export function useInvites() {
 
 export async function inviteUser(email: string, role?: AppRole, department?: string) {
   const id = normalizeEmail(email);
-  await setDoc(doc(db, "invites", id), { email: id, role, department, invitedAt: Date.now() });
+  const data: Record<string, unknown> = { email: id, invitedAt: Date.now() };
+  if (role !== undefined) data.role = role;
+  if (department !== undefined) data.department = department;
+  await setDoc(doc(db, "invites", id), data);
 }
 
 export async function deleteInvite(id: string) {

@@ -1,8 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Navigation } from "./Navigation";
-import { FileText, Link as LinkIcon, CheckCircle2, X, Slack, ChevronDown, ChevronUp } from "lucide-react";
+import { FileText, Link as LinkIcon, CheckCircle2, X } from "lucide-react";
 import { useApprovals, decideApprovalDoc } from "../../lib/approvals";
-import { getSlackWebhookUrl, setSlackWebhookUrl } from "../../lib/slack";
 import { useAuth } from "../../lib/AuthContext";
 
 const getDepartmentColor = (department: string) => {
@@ -14,66 +13,6 @@ const getDepartmentColor = (department: string) => {
   };
   return colors[department] || "bg-gray-100 text-gray-700";
 };
-
-function SlackSettings() {
-  const [open, setOpen] = useState(false);
-  const [url, setUrl] = useState("");
-  const [saved, setSaved] = useState(false);
-  const [saving, setSaving] = useState(false);
-
-  useEffect(() => {
-    getSlackWebhookUrl().then((existing) => { if (existing) setUrl(existing); });
-  }, []);
-
-  async function handleSave() {
-    setSaving(true);
-    try {
-      await setSlackWebhookUrl(url.trim());
-      setSaved(true);
-      setTimeout(() => setSaved(false), 2000);
-    } finally {
-      setSaving(false);
-    }
-  }
-
-  return (
-    <div className="mb-6 bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-      <button
-        onClick={() => setOpen((v) => !v)}
-        className="w-full flex items-center justify-between px-5 py-3 text-sm text-gray-600 hover:bg-gray-50 transition-colors"
-      >
-        <span className="flex items-center gap-2">
-          <Slack className="w-4 h-4" />
-          Slack notifications
-        </span>
-        {open ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-      </button>
-      {open && (
-        <div className="px-5 pb-5 pt-1 space-y-2">
-          <p className="text-xs text-gray-400">
-            Paste an Incoming Webhook URL from Slack (Slack App settings → Incoming Webhooks) to get a
-            one-way ping in Slack whenever someone submits a task for review.
-          </p>
-          <div className="flex gap-2">
-            <input
-              value={url}
-              onChange={(e) => setUrl(e.target.value)}
-              placeholder="https://hooks.slack.com/services/..."
-              className="flex-1 border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-[#0D1B3E]"
-            />
-            <button
-              onClick={handleSave}
-              disabled={saving}
-              className="px-4 py-2 rounded-lg bg-[#0D1B3E] text-white text-sm hover:bg-[#1a2d5f] disabled:opacity-60"
-            >
-              {saving ? "Saving..." : saved ? "Saved ✓" : "Save"}
-            </button>
-          </div>
-        </div>
-      )}
-    </div>
-  );
-}
 
 export function Approvals() {
   const { user } = useAuth();
@@ -97,8 +36,6 @@ export function Approvals() {
           <h1 className="text-3xl text-[#0D1B3E] mb-2">Pending Approvals</h1>
           <p className="text-gray-600">Review and approve tasks that were sent to you</p>
         </div>
-
-        <SlackSettings />
 
         {loading ? (
           <p className="text-gray-400 text-sm">Loading...</p>
