@@ -191,7 +191,11 @@ export function Dashboard() {
           <h1 className="text-3xl text-[#0D1B3E] mb-2">
             {getTimeOfDayGreeting()}, {getFirstName(user?.displayName, user?.email)}
           </h1>
-          <p className="text-gray-500 text-sm">Overview of all company projects and progress</p>
+          <p className="text-gray-500 text-sm">
+            {activeTab === "All"
+              ? "Overview of all company projects and progress"
+              : `Overview of ${activeTab} projects and progress`}
+          </p>
         </div>
 
         {loading ? (
